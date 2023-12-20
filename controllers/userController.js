@@ -21,14 +21,28 @@ router.post('/login', async (req, res) => {
         const { username, password } = req.body;
         const user = await User.findOne({ where: { username }});
 
-        if (!user ||!(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ message: 'Invalid username or password'}));
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
 
         req.session.user_id = user.id;
         res.json(user);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Internal Server Error'});
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
+router.post('/logout', req, res) => {
+    try {
+        req.session.detroy((err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ message: 'Error Logging Out'});
+            } catch (err) {
+                console.error(err);
+                res.status(500).json({ message: 'Internal Server Error'});
+            }
+        });
+    }
+}
