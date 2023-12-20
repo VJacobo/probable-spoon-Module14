@@ -1,0 +1,14 @@
+{{#each posts}}
+  <h2>{{this.title}}</h2>
+  <p>{{this.body}}</p>
+  <p>Author: {{this.user.username}}</p>
+
+  {{!-- Render comments for the current post --}}
+  <h3>Comments:</h3>
+  {{#each this.comments}}
+    <p>{{this.text}}</p>
+    <p>Comment by: {{this.user.username}}</p>
+    <hr>
+  {{/each}}
+
+{{/each}}
